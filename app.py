@@ -11,7 +11,7 @@ model = genai.GenerativeModel(
 )
 
 # 3. 디자인 커스텀 (CSS 마법 가루 🪄)
-st.set_page_config(page_title="너의 전용 요정 🧚‍♀️", page_icon="💖")
+st.set_page_config(page_title="너의 전용 요정", page_icon="💖")
 
 st.markdown("""
     <style>
@@ -38,7 +38,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # 4. 헤더 부분
-st.title("💖 수고했어, 오늘도 💖")
+st.title("💖 수고했어 💖\t오늘도")
 st.markdown("<p style='text-align: center; color: #888;'>오늘 하루도 버티느라 고생 많았어. 힘든 일 있으면 나한테 다 말해줘!</p>", unsafe_allow_html=True)
 
 # 5. 대화 기록 관리
@@ -59,4 +59,5 @@ if prompt := st.chat_input("하고 싶은 말이 뭐야?"):
     with st.chat_message("assistant"):
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
+
 
