@@ -35,7 +35,7 @@ st.markdown("""
         margin-bottom: 10px;
     }
     </style>
-    """, unsafe_allow_status=True)
+    """, unsafe_allow_html=True)
 
 # 4. 헤더 부분
 st.title("💖 수고했어, 오늘도 💖")
@@ -59,3 +59,4 @@ if prompt := st.chat_input("하고 싶은 말이 뭐야?"):
     with st.chat_message("assistant"):
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
+
