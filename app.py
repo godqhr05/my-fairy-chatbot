@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # [요청 4] 모바일 최적화: 화면을 모바일에 맞게 가운데 정렬 (반드시 코드 최상단에 위치해야 해!)
-st.set_page_config(page_title="공감 가나디", page_icon="💖", layout="centered")
+st.set_page_config(page_title="공감 요정 챗봇", page_icon="💖", layout="centered")
 
 # [요청 3] 말풍선 둥글게, 귀여운 폰트(구글 폰트 Jua), 테마 컬러 CSS 적용
 custom_css = """
