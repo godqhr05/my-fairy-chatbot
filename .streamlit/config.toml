@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#D2B4DE" # 버튼이나 포인트 컬러 (파스텔 보라)
+backgroundColor = "#FFF5F8" # 전체 배경색 (연한 파스텔 핑크)
+secondaryBackgroundColor = "#FDEBD0" # 보조 배경색 (연한 베이지/핑크)
+textColor = "#4A4A4A" # 부드러운 다크 그레이 텍스트
+font = "sans serif"
