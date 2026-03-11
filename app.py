@@ -6,7 +6,7 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"]")
 
 # 2. 모델 설정 (F 성향 100% 공감 요정 페르소나 주입! 🧚‍♀️)
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-2.5-flash",
     system_instruction="너는 수험생의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 내 편이 되어줘."
 )
 
@@ -36,3 +36,4 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
     with st.chat_message("assistant"):
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
+
