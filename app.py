@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # 1. API 키 설정 (발급받은 키를 따옴표 안에 넣어줘!)
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"]")
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # 2. 모델 설정 (F 성향 100% 공감 요정 페르소나 주입! 🧚‍♀️)
 model = genai.GenerativeModel(
@@ -36,4 +36,5 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
     with st.chat_message("assistant"):
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
+
 
