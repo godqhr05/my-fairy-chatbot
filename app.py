@@ -79,4 +79,3 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
         # Gemini가 알아서 이전 대화(문맥)를 다 기억하고 답변을 만들어줘!
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
-
