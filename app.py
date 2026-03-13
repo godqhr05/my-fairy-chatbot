@@ -16,7 +16,7 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
     margin-bottom: 15px !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FCE4EC !important; }
+[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FFFFFF !important; }
 [data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
 
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
@@ -50,8 +50,8 @@ model = genai.GenerativeModel(
 st.markdown('<div class="custom-title">💖 수고했어, 오늘도 💖</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subheader">아무한테나 말 못 할 힘든 일, 나한테 다 털어놔!</div>', unsafe_allow_html=True)
 
-USER_AVATAR = "👤" 
-AI_AVATAR = "🧚‍♀️"      
+USER_AVATAR = "user_pic.png" 
+AI_AVATAR = "ai_pic.png"      
 
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
@@ -83,5 +83,6 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
                         yield chunk.text
 
             full_response = st.write_stream(response_generator(prompt))
+
 
 
