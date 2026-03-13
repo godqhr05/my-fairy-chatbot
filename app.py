@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="공감 요정 챗봇", page_icon="💖", layout="centered")
 
@@ -44,7 +45,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판은 절대 금지! 무조건 영은이 편이 되어줘. ✨"
+    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판은 절대 금지! 한 문단 내로 무조건 영은이 편이 되어줘. ✨"
 )
 
 # 타이틀 출력
@@ -84,6 +85,29 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
 
         # st.write_stream이 한 글자씩 써주면서 기록도 합쳐줌!
         full_response = st.write_stream(stream_generator())
+# ---------------------------------------------------------
+# [꼼수 마법] 화면 맨 아래로 스크롤 & 키보드 내리기 시도!
+# ---------------------------------------------------------
+components.html(
+    """
+    <script>
+        const parent = window.parent.document;
+        
+        // 1. 채팅창 스크롤을 맨 밑으로 쫙! 끌어내리기
+        const main = parent.querySelector('.main');
+        if (main) {
+            main.scrollTo(0, main.scrollHeight);
+        }
+        
+        // 2. 글자 입력창에서 포커스를 빼서 모바일 키보드 숨기기 유도!
+        const input = parent.querySelector('[data-testid="stChatInput"] textarea');
+        if (input) {
+            input.blur();
+        }
+    </script>
+    """,
+    height=0
+)
 
 
 
