@@ -10,14 +10,25 @@ custom_css = """
 html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
 /* 말풍선 디자인 */
+/* 공통 스타일 */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
     padding: 10px 20px !important;
     margin-bottom: 15px !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FFFFFF !important; }
-[data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
+
+/* 👤 사용자(User) 메시지 스타일 - 오른쪽 정렬 느낌 */
+[data-testid="stChatMessage"]:has([aria-label="user"]) {
+    background-color: #FCE4EC !important; /* 분홍색 */
+    margin-left: 20% !important;
+}
+
+/* 🤖 어시스턴트(Assistant) 메시지 스타일 - 왼쪽 정렬 느낌 */
+[data-testid="stChatMessage"]:has([aria-label="assistant"]) {
+    background-color: #F3E5F5 !important; /* 보라색 */
+    margin-right: 20% !important;
+}
 
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
@@ -83,6 +94,11 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
                         yield chunk.text
 
             full_response = st.write_stream(response_generator(prompt))
+// 2. 글자 입력창에서 포커스를 빼서 모바일 키보드 숨기기 유도!
+        const input = parent.querySelector('[data-testid="stChatInput"] textarea');
+        if (input) {
+            input.blur();
+        }
 
 
 
