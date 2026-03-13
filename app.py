@@ -1,17 +1,13 @@
 import streamlit as st
 import google.generativeai as genai
-import time
 
 st.set_page_config(page_title="공감 요정 챗봇", page_icon="💖", layout="centered")
 
-# [수정 1 & 2] 타이틀 폰트 크기 조정 및 입력창 흰색 배경 CSS 추가
+# [디자인] CSS 설정
 custom_css = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Jua', sans-serif !important;
-}
+html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
 /* 말풍선 디자인 */
 [data-testid="stChatMessage"] {
@@ -20,92 +16,63 @@ html, body, [class*="css"] {
     margin-bottom: 15px !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-[data-testid="stChatMessage"]:nth-child(odd) {
-    background-color: #FCE4EC !important;
-}
-[data-testid="stChatMessage"]:nth-child(even) {
-    background-color: #F3E5F5 !important;
-}
+[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FCE4EC !important; }
+[data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
 
-/* [요청 1] 타이틀과 서브헤더 폰트 크기 맘대로 조절하기 */
-.custom-title {
-    font-size: 37px !important; /* 메인 제목 크기 (숫자를 키우면 커짐) */
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 5px;
-    color: #4A4A4A;
-}
-.custom-subheader {
-    font-size: 20px !important; /* 부제목 크기 (숫자를 줄이면 작아짐) */
-    text-align: center;
-    margin-bottom: 30px;
-    color: #7F8C8D;
-}
+.custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
+.custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
 
-/* [요청 2] 하단 채팅 입력창을 완전한 흰색으로 만들기 */
+/* 하단 채팅 입력창 흰색 배경 */
 div[data-testid="stChatInput"] > div {
     background-color: #ffffff !important; 
     border-radius: 20px !important;
-    border: 1px solid #E5E7EB !important; /* 얇은 테두리로 깔끔하게 */
-}
-div[data-testid="stChatInput"] textarea {
-    background-color: #ffffff !important;
-    color: #000000 !important;
+    border: 1px solid #E5E7EB !important;
 }
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
+# API 설정
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 영은이의 편이 되어줘."
+    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판은 절대 금지! 무조건 영은이 편이 되어줘. ✨"
 )
 
-# [요청 1 적용] st.title 대신 커스텀 클래스를 써서 크기 조절
+# 타이틀 출력
 st.markdown('<div class="custom-title">💖 수고했어, 오늘도 💖</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subheader">아무한테나 말 못 할 힘든 일, 나한테 다 털어놔!</div>', unsafe_allow_html=True)
 
-USER_AVATAR = "user_pic.png" 
-AI_AVATAR = "ai_pic.png"     
+# 아바타 설정 (파일명 혹은 이모지)
+USER_AVATAR = "👤" # "user_pic.png" 파일이 없으면 에러 날 수 있으니 일단 이모지로 해둘게!
+AI_AVATAR = "🧚‍♀️"   # "ai_pic.png" 대신 귀여운 요정 이모지!
 
-# [요청 3] 대화 기억하기: 'chat_session' 자체가 이전 대화를 계속 누적해서 기억하는 객체야!
+# 대화 세션 관리
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
 
+# 이전 대화 기록 출력
 for message in st.session_state.chat_session.history:
     role = "assistant" if message.role == "model" else "user"
     avatar_img = AI_AVATAR if role == "assistant" else USER_AVATAR
-    
     with st.chat_message(role, avatar=avatar_img):
         st.markdown(message.parts[0].text)
 
+# 채팅 입력창
 if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
+    # 1. 사용자 메시지 출력
     with st.chat_message("user", avatar=USER_AVATAR):
         st.markdown(prompt)
     
+    # 2. AI 답변 생성 및 타이핑 효과 출력
     with st.chat_message("assistant", avatar=AI_AVATAR):
-        # 여기서 send_message를 할 때, 이전 대화 내용(history)까지 알아서 같이 전달돼서 맥락을 이해하고 답변해 줌!
-        response = st.session_state.chat_session.send_message(prompt)
-        st.markdown(response.text)
+        # 💡 [핵심] 텍스트 조각을 모으는 생성기 함수
+        def stream_generator():
+            # chat_session을 통해 스트리밍 방식으로 메시지 전송
+            response = st.session_state.chat_session.send_message(prompt, stream=True)
+            for chunk in response:
+                if chunk.text:
+                    yield chunk.text
 
-with st.chat_message("assistant", avatar="🧚‍♀️"):
-    message_placeholder = st.empty() # 글자가 들어갈 빈 칸을 먼저 확보!
-    full_response = ""
-    
-    # 일단 답변을 통째로 가져온 뒤 (stream 없이)
-    response = model.generate_content(prompt)
-    
-    # 한 글자씩 쪼개서 화면에 업데이트!
-    for char in response.text:
-        full_response += char
-        # 글자 뒤에 커서(▌)를 붙여서 더 실감나게!
-        message_placeholder.markdown(full_response + "▌")
-        time.sleep(0.02) # 숫자가 커질수록 타이핑 속도가 느려져
-        
-    message_placeholder.markdown(full_response) # 마지막엔 커서 떼기!
-
-
-
-
+        # st.write_stream이 한 글자씩 써주면서 기록도 합쳐줌!
+        full_response = st.write_stream(stream_generator())
