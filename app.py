@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+import time
 
 st.set_page_config(page_title="공감 요정 챗봇", page_icon="💖", layout="centered")
 
@@ -89,18 +90,22 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
 
-# 1. 텍스트만 쏙쏙 뽑아주는 '생성기(Generator)'를 만들어
-def response_generator(prompt):
-    # stream=True 옵션을 줘야 답변이 조각조각 나눠서 와!
-    response = model.generate_content(prompt, stream=True)
-    for chunk in response:
-        if chunk.text:
-            yield chunk.text  # 글자 조각을 하나씩 던져줌!
-
-# 2. 채팅창에서 실행할 때
 with st.chat_message("assistant", avatar="🧚‍♀️"):
-    # st.write_stream이 받은 글자 조각들을 타이핑하듯 보여줘
-    full_response = st.write_stream(response_generator(prompt))
+    message_placeholder = st.empty() # 글자가 들어갈 빈 칸을 먼저 확보!
+    full_response = ""
+    
+    # 일단 답변을 통째로 가져온 뒤 (stream 없이)
+    response = model.generate_content(prompt)
+    
+    # 한 글자씩 쪼개서 화면에 업데이트!
+    for char in response.text:
+        full_response += char
+        # 글자 뒤에 커서(▌)를 붙여서 더 실감나게!
+        message_placeholder.markdown(full_response + "▌")
+        time.sleep(0.02) # 숫자가 커질수록 타이핑 속도가 느려져
+        
+    message_placeholder.markdown(full_response) # 마지막엔 커서 떼기!
+
 
 
 
