@@ -17,8 +17,17 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
     margin-bottom: 15px !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FCE4EC !important; }
-[data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
+/* 👤 질문자 말풍선 (홀수 번째) */
+[data-testid="stChatMessage"]:nth-child(odd) {
+    background-color: #FFFFFF !important; /* 깔끔한 흰색 */
+    border: 1.5px solid #FFEAEA !important; /* 연한 핑크 테두리 */
+}
+
+/* 🧚‍♀️ 답변자(요정) 말풍선 (짝수 번째) */
+[data-testid="stChatMessage"]:nth-child(even) {
+    background-color: #FFF0F5 !important; /* 포근한 베이비 핑크 */
+    border: none !important; /* 테두리 없이 부드럽게 */
+}
 
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
@@ -34,8 +43,6 @@ div[data-testid="stChatInput"] > div {
 div[data-testid="stChatInput"] textarea {
     background-color: #ffffff !important;
     color: #000000 !important;
-}
-
 }
 </style>
 """
@@ -103,6 +110,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
