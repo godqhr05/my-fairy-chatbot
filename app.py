@@ -23,11 +23,17 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
 
-/* 하단 채팅 입력창 흰색 배경 */
+/* [요청 2] 하단 채팅 입력창을 완전한 흰색으로 만들기 */
+
 div[data-testid="stChatInput"] > div {
     background-color: #ffffff !important; 
     border-radius: 20px !important;
-    border: 1px solid #E5E7EB !important;
+    border: 1px solid #E5E7EB !important; /* 얇은 테두리로 깔끔하게 */
+}
+
+div[data-testid="stChatInput"] textarea {
+    background-color: #ffffff !important;
+    color: #000000 !important;
 }
 </style>
 """
@@ -37,7 +43,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판은 절대 금지! 무조건 영은이 편이 되어줘. ✨"
+    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판은 절대 금지! 가독성 좋고 길지 않게 무조건 영은이 편이 되어줘. ✨"
 )
 
 # 타이틀 출력
@@ -45,8 +51,8 @@ st.markdown('<div class="custom-title">💖 수고했어, 오늘도 💖</div>',
 st.markdown('<div class="custom-subheader">아무한테나 말 못 할 힘든 일, 나한테 다 털어놔!</div>', unsafe_allow_html=True)
 
 # 아바타 설정 (파일명 혹은 이모지)
-USER_AVATAR = "👤" # "user_pic.png" 파일이 없으면 에러 날 수 있으니 일단 이모지로 해둘게!
-AI_AVATAR = "🧚‍♀️"   # "ai_pic.png" 대신 귀여운 요정 이모지!
+USER_AVATAR = "user_pic.png"
+AI_AVATAR = "ai_pic.png"
 
 # 대화 세션 관리
 if "chat_session" not in st.session_state:
@@ -77,4 +83,29 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
 
         # st.write_stream이 한 글자씩 써주면서 기록도 합쳐줌!
         full_response = st.write_stream(stream_generator())
+
+# ---------------------------------------------------------
+# [꼼수 마법] 화면 맨 아래로 스크롤 & 키보드 내리기 시도!
+# ---------------------------------------------------------
+components.html(
+    """
+    <script>
+        const parent = window.parent.document;
+        
+        // 1. 채팅창 스크롤을 맨 밑으로 쫙! 끌어내리기
+        const main = parent.querySelector('.main');
+        if (main) {
+            main.scrollTo(0, main.scrollHeight);
+        }
+        
+        // 2. 글자 입력창에서 포커스를 빼서 모바일 키보드 숨기기 유도!
+        const input = parent.querySelector('[data-testid="stChatInput"] textarea');
+        if (input) {
+            input.blur();
+        }
+    </script>
+    """,
+    height=0
+)
+
 
