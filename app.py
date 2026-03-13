@@ -28,7 +28,7 @@ html, body, [class*="css"] {
 
 /* [요청 1] 타이틀과 서브헤더 폰트 크기 맘대로 조절하기 */
 .custom-title {
-    font-size: 45px !important; /* 메인 제목 크기 (숫자를 키우면 커짐) */
+    font-size: 37px !important; /* 메인 제목 크기 (숫자를 키우면 커짐) */
     font-weight: bold;
     text-align: center;
     margin-bottom: 5px;
@@ -59,11 +59,11 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction="너는 수험생의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 내 편이 되어줘."
+    system_instruction="너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 영은이의 편이 되어줘."
 )
 
 # [요청 1 적용] st.title 대신 커스텀 클래스를 써서 크기 조절
-st.markdown('<div class="custom-title">💖 수고했어 오늘도 💖</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-title">💖 수고했어, 오늘도 💖</div>', unsafe_allow_html=True)
 st.markdown('<div class="custom-subheader">아무한테나 말 못 할 힘든 일, 나한테 다 털어놔!</div>', unsafe_allow_html=True)
 
 USER_AVATAR = "user_pic.png" 
@@ -88,3 +88,17 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
         # 여기서 send_message를 할 때, 이전 대화 내용(history)까지 알아서 같이 전달돼서 맥락을 이해하고 답변해 줌!
         response = st.session_state.chat_session.send_message(prompt)
         st.markdown(response.text)
+
+# 1. 텍스트만 쏙쏙 뽑아주는 '생성기(Generator)'를 만들어
+def response_generator(prompt):
+    # stream=True 옵션을 줘야 답변이 조각조각 나눠서 와!
+    response = model.generate_content(prompt, stream=True)
+    for chunk in response:
+        if chunk.text:
+            yield chunk.text  # 글자 조각을 하나씩 던져줌!
+
+# 2. 채팅창에서 실행할 때
+with st.chat_message("assistant", avatar="🧚‍♀️"):
+    # st.write_stream이 받은 글자 조각들을 타이핑하듯 보여줘
+    full_response = st.write_stream(response_generator(prompt))
+
