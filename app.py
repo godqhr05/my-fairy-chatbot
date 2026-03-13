@@ -5,12 +5,17 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="공감 요정 챗봇", page_icon="💖", layout="centered")
 
 # [디자인] CSS 설정
+# 기존의 custom_css 변수 부분을 이걸로 싹 덮어쓰기! 👇
+
 custom_css = """
 <style>
+/* 폰트 설정 */
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
+html, body, [class*="css"] { 
+    font-family: 'Jua', sans-serif !important; 
+}
 
-/* 말풍선 공통 디자인 (둥글고 귀엽게!) */
+/* 🍓 1. 말풍선 디자인 (딸기 우유 세트) */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
     padding: 15px 20px !important;
@@ -18,36 +23,48 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
     box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
 }
 
-/* 👤 질문자 말풍선 (홀수 번째) */
+/* 질문자 (흰색 + 핑크 테두리) */
 [data-testid="stChatMessage"]:nth-child(odd) {
-    background-color: #FFFFFF !important; /* 깔끔한 흰색 */
-    border: 1.5px solid #FFEAEA !important; /* 연한 핑크 테두리 */
+    background-color: #FFFFFF !important; 
+    border: 1.5px solid #FFEAEA !important; 
 }
 
-/* 🧚‍♀️ 답변자(요정) 말풍선 (짝수 번째) */
+/* 답변자 (포근한 핑크) */
 [data-testid="stChatMessage"]:nth-child(even) {
-    background-color: #FFF0F5 !important; /* 포근한 베이비 핑크 */
-    border: none !important; /* 테두리 없이 부드럽게 */
+    background-color: #FFF0F5 !important; 
+    border: none !important; 
 }
 
-/* 말풍선 안의 텍스트 색상을 진하게 고정 (다크모드 방지용) */
+/* 말풍선 글자색 강제 고정 */
 [data-testid="stChatMessage"] p {
     color: #4A4A4A !important;
 }
 
-/* [요청 2] 하단 채팅 입력창을 완전한 흰색으로 만들기 */
+/* ✨ 2. 타이틀 & 부제목 (이 부분이 고장 났던 거야!) */
+.custom-title { 
+    font-size: 37px !important; 
+    font-weight: bold; 
+    text-align: center; 
+    margin-bottom: 5px; 
+    color: #4A4A4A; 
+}
 
+.custom-subheader { 
+    font-size: 20px !important; 
+    text-align: center; 
+    margin-bottom: 30px; 
+    color: #7F8C8D; 
+}
+
+/* 🤍 3. 하단 채팅 입력창 디자인 */
 div[data-testid="stChatInput"] > div {
     background-color: #ffffff !important; 
     border-radius: 20px !important;
-    border: 1px solid #E5E7EB !important; /* 얇은 테두리로 깔끔하게 */
+    border: 1px solid #E5E7EB !important;
 }
-
 div[data-testid="stChatInput"] textarea {
     background-color: #ffffff !important;
     color: #000000 !important;
-}
-
 }
 </style>
 """
@@ -115,6 +132,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
