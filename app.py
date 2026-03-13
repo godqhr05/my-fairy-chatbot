@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="공감 가나디 챗봇", page_icon="💖", layout="centered")
 
@@ -117,6 +118,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
