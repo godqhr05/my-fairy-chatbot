@@ -94,11 +94,30 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
                         yield chunk.text
 
             full_response = st.write_stream(response_generator(prompt))
-// 2. 글자 입력창에서 포커스를 빼서 모바일 키보드 숨기기 유도!
+# ---------------------------------------------------------
+# [꼼수 마법] 화면 맨 아래로 스크롤 & 키보드 내리기 시도!
+# ---------------------------------------------------------
+components.html(
+    """
+    <script>
+        const parent = window.parent.document;
+        
+        // 1. 채팅창 스크롤을 맨 밑으로 쫙! 끌어내리기
+        const main = parent.querySelector('.main');
+        if (main) {
+            main.scrollTo(0, main.scrollHeight);
+        }
+        
+        // 2. 글자 입력창에서 포커스를 빼서 모바일 키보드 숨기기 유도!
         const input = parent.querySelector('[data-testid="stChatInput"] textarea');
         if (input) {
             input.blur();
         }
+    </script>
+    """,
+    height=0
+)
+
 
 
 
