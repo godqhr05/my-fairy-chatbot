@@ -20,10 +20,14 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
 /* 🎯 핵심 해결 포인트! 겉에 있는 '투명 박스(.element-container)'의 순서를 센다! */
 
-/* 👤 질문자 말풍선 (흰색 배경 + 핑크 테두리) */
+/* 👤 질문자 말풍선 (흰색 배경 + 확실한 테두리) */
 .element-container:nth-child(even) [data-testid="stChatMessage"] { 
     background-color: #FFFFFF !important; 
-    border: 1.5px solid #FFEAEA !important;
+    
+    /* 🚨 테두리 명령을 3개로 쪼개서 강제로 먹이기! */
+    border-style: solid !important;
+    border-width: 2px !important; /* 두께를 1.5에서 2로 살짝 키웠어! */
+    border-color: #F3E5D8 !important; /* 버터 세트 테두리 색상 */
 }
 
 /* 🧚‍♀️ 요정 말풍선 (포근한 핑크 배경) */
@@ -117,6 +121,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
