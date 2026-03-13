@@ -22,11 +22,27 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
 
-/* 하단 채팅 입력창 흰색 배경 */
-div[data-testid="stChatInput"] > div {
-    background-color: #ffffff !important; 
-    border-radius: 20px !important;
-    border: 1px solid #E5E7EB !important;
+/* 1. 깜빡이는 커서(막대기) 색깔 바꾸기 */
+div[data-testid="stChatInput"] textarea {
+    caret-color: #FF8E8E !important; /* 주황색 커서를 핑크색으로! */
+}
+
+/* 2. 입력창을 클릭했을 때(Focus) 전체적으로 감싸는 테두리 선 */
+div[data-testid="stChatInput"] > div:focus-within {
+    border-color: #FF8E8E !important; /* 주황색 선을 핑크색으로! */
+    box-shadow: 0 0 0 1px #FF8E8E !important;
+}
+
+/* 3. 전송 버튼 아이콘 색상 (혹시 모르니 한 번 더!) */
+div[data-testid="stChatInput"] button svg {
+    fill: #FF8E8E !important;
+}
+
+/* 4. 글자를 드래그(블록 지정)했을 때 색상도 핑크로! */
+::selection {
+    background: #FCE4EC !important;
+    color: #FF8E8E !important;
+}
 }
 </style>
 """
@@ -44,8 +60,8 @@ st.markdown('<div class="custom-title">💖 수고했어, 오늘도 💖</div>',
 st.markdown('<div class="custom-subheader">아무한테나 말 못 할 힘든 일, 나한테 다 털어놔!</div>', unsafe_allow_html=True)
 
 # 아바타 설정 (파일명 혹은 이모지)
-USER_AVATAR = "👤" # "user_pic.png" 파일이 없으면 에러 날 수 있으니 일단 이모지로 해둘게!
-AI_AVATAR = "🧚‍♀️"   # "ai_pic.png" 대신 귀여운 요정 이모지!
+USER_AVATAR = "user_pic.png" 파일이 없으면 에러 날 수 있으니 일단 이모지로 해둘게!
+AI_AVATAR = "ai_pic.png" 대신 귀여운 요정 이모지!
 
 # 대화 세션 관리
 if "chat_session" not in st.session_state:
@@ -76,3 +92,4 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
 
         # st.write_stream이 한 글자씩 써주면서 기록도 합쳐줌!
         full_response = st.write_stream(stream_generator())
+
