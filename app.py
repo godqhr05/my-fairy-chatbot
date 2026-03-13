@@ -26,7 +26,7 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
 /* 🧚‍♀️ 요정 말풍선 (배경보다 살짝 진한 예쁜 파스텔 핑크 🌸) */
 .element-container:nth-child(odd) [data-testid="stChatMessage"] { 
-    background-color: #FFD8E4 !important; /* 너무 쨍하지 않고 부드러운 핑크색이야! */
+    background-color: #FFFFFF !important; /* 너무 쨍하지 않고 부드러운 핑크색이야! */
 }
 
 /* 다크모드에서도 글씨 잘 보이게 텍스트 색상 고정 */
@@ -114,6 +114,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
