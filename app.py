@@ -9,42 +9,32 @@ custom_css = """
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
-/* 말풍선 공통 디자인 */
+/* 말풍선 디자인 */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
     padding: 10px 20px !important;
     margin-bottom: 15px !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
-    border: none !important; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FCE4EC !important; }
+[data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
 
-/* 👤 질문자 (무조건 홀수! 깔끔한 흰색) */
-.element-container:nth-child(odd) [data-testid="stChatMessage"] { 
-    background-color: #FFFFFF !important; 
-}
-
-/* 🧚‍♀️ 답변자 (무조건 짝수! 예쁜 파스텔 핑크) */
-.element-container:nth-child(even) [data-testid="stChatMessage"] { 
-    background-color: #FFFFFF !important; 
-}
-
-[data-testid="stChatMessage"] p {
-    color: #4A4A4A !important;
-}
-
-/* 제목 & 부제목 */
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
 
-/* 입력창 */
+/* [요청 2] 하단 채팅 입력창을 완전한 흰색으로 만들기 */
+
 div[data-testid="stChatInput"] > div {
     background-color: #ffffff !important; 
     border-radius: 20px !important;
-    border: 1px solid #E5E7EB !important; 
+    border: 1px solid #E5E7EB !important; /* 얇은 테두리로 깔끔하게 */
 }
+
 div[data-testid="stChatInput"] textarea {
     background-color: #ffffff !important;
     color: #000000 !important;
+}
+
 }
 </style>
 """
@@ -93,4 +83,5 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
                         yield chunk.text
 
             full_response = st.write_stream(response_generator(prompt))
+
 
