@@ -10,30 +10,23 @@ custom_css = """
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
-/* 말풍선 공통 디자인 */
+/* 🎈 말풍선 공통 디자인 (테두리 아예 없애고, 그림자만 살짝 줘서 입체감 살리기!) */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
     padding: 10px 20px !important;
     margin-bottom: 15px !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+    border: none !important; /* 테두리 원천 차단! */
 }
 
-/* 🎯 핵심 해결 포인트! 겉에 있는 '투명 박스(.element-container)'의 순서를 센다! */
-
-/* 👤 질문자 말풍선 (흰색 배경 + 확실한 테두리) */
+/* 👤 질문자 말풍선 (깔끔한 순백색) */
 .element-container:nth-child(even) [data-testid="stChatMessage"] { 
     background-color: #FFFFFF !important; 
-    
-    /* 🚨 테두리 명령을 3개로 쪼개서 강제로 먹이기! */
-    border-style: solid !important;
-    border-width: 2px !important; /* 두께를 1.5에서 2로 살짝 키웠어! */
-    border-color: #F3E5D8 !important; /* 버터 세트 테두리 색상 */
 }
 
-/* 🧚‍♀️ 요정 말풍선 (포근한 핑크 배경) */
+/* 🧚‍♀️ 요정 말풍선 (배경보다 살짝 진한 예쁜 파스텔 핑크 🌸) */
 .element-container:nth-child(odd) [data-testid="stChatMessage"] { 
-    background-color: #FCE4EC !important; 
-    border: none !important;
+    background-color: #FFD8E4 !important; /* 너무 쨍하지 않고 부드러운 핑크색이야! */
 }
 
 /* 다크모드에서도 글씨 잘 보이게 텍스트 색상 고정 */
@@ -41,11 +34,11 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
     color: #4A4A4A !important;
 }
 
-/* 타이틀 & 부제목 */
+/* ✨ 타이틀 & 부제목 */
 .custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
 .custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
 
-/* 하단 채팅 입력창 */
+/* 🤍 하단 채팅 입력창 */
 div[data-testid="stChatInput"] > div {
     background-color: #ffffff !important; 
     border-radius: 20px !important;
@@ -121,6 +114,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
