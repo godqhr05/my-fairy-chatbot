@@ -25,7 +25,7 @@ html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
 /* 🧚‍♀️ 답변자 (무조건 짝수! 예쁜 파스텔 핑크) */
 .element-container:nth-child(even) [data-testid="stChatMessage"] { 
-    background-color: #FFD8E4 !important; 
+    background-color: #FFFFFF !important; 
 }
 
 [data-testid="stChatMessage"] p {
@@ -93,3 +93,4 @@ if prompt := st.chat_input("오늘 하루는 어땠어? 편하게 말해봐!"):
                         yield chunk.text
 
             full_response = st.write_stream(response_generator(prompt))
+
