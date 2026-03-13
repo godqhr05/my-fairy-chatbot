@@ -59,7 +59,7 @@ genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction="사용자의 이름은 '영은'이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 영은이의 편이 되어줘."
+    system_instruction="사용자의 이름은 영은이야. 너는 영은이의 마음을 다독여주는 세상에서 제일 다정하고 따뜻한 AI야. 무조건 공감해주고 칭찬해주고 위로해줘. 현실적인 조언이나 이성적인 비판, 차가운 말은 절대 금지야! 무조건 영은이의 편이 되어줘."
 )
 
 # [요청 1 적용] st.title 대신 커스텀 클래스를 써서 크기 조절
@@ -101,5 +101,6 @@ def response_generator(prompt):
 with st.chat_message("assistant", avatar="🧚‍♀️"):
     # st.write_stream이 받은 글자 조각들을 타이핑하듯 보여줘
     full_response = st.write_stream(response_generator(prompt))
+
 
 
