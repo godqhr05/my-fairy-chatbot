@@ -10,18 +10,30 @@ custom_css = """
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 html, body, [class*="css"] { font-family: 'Jua', sans-serif !important; }
 
-/* 말풍선 디자인 */
+/* 말풍선 공통 디자인 (둥글고 귀엽게!) */
 [data-testid="stChatMessage"] {
     border-radius: 20px !important;
-    padding: 10px 20px !important;
+    padding: 15px 20px !important;
     margin-bottom: 15px !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
 }
-[data-testid="stChatMessage"]:nth-child(odd) { background-color: #FCE4EC !important; }
-[data-testid="stChatMessage"]:nth-child(even) { background-color: #F3E5F5 !important; }
 
-.custom-title { font-size: 37px !important; font-weight: bold; text-align: center; margin-bottom: 5px; color: #4A4A4A; }
-.custom-subheader { font-size: 20px !important; text-align: center; margin-bottom: 30px; color: #7F8C8D; }
+/* 👤 질문자 말풍선 (홀수 번째) */
+[data-testid="stChatMessage"]:nth-child(odd) {
+    background-color: #FFFFFF !important; /* 깔끔한 흰색 */
+    border: 1.5px solid #FFEAEA !important; /* 연한 핑크 테두리 */
+}
+
+/* 🧚‍♀️ 답변자(요정) 말풍선 (짝수 번째) */
+[data-testid="stChatMessage"]:nth-child(even) {
+    background-color: #FFF0F5 !important; /* 포근한 베이비 핑크 */
+    border: none !important; /* 테두리 없이 부드럽게 */
+}
+
+/* 말풍선 안의 텍스트 색상을 진하게 고정 (다크모드 방지용) */
+[data-testid="stChatMessage"] p {
+    color: #4A4A4A !important;
+}
 
 /* [요청 2] 하단 채팅 입력창을 완전한 흰색으로 만들기 */
 
@@ -103,6 +115,7 @@ components.html(
     """,
     height=0
 )
+
 
 
 
